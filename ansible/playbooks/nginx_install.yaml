@@ -1,0 +1,21 @@
+---
+- hosts: dev
+  become: true
+  become_method: sudo
+  tasks:
+   - name: "update cache"
+     apt:
+       update_cache: yes
+   - name: "install nginx"
+     apt:
+      name: ['nginx']
+      state: latest
+      update_cache: true
+     notify:
+      - start nginx
+
+  handlers:
+   - name: "start nginx"
+     service:
+       name: nginx
+       state: restarted    
